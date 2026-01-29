@@ -64,7 +64,10 @@
 	},
 	"overrides": [
 		{
-			"includes": ["**/pages/**", "**/app/**"],
+			"includes": [
+				"*.config.{js,ts}",
+				"**/src/**"
+			],
 			"linter": {
 				"rules": {
 					"performance": {
