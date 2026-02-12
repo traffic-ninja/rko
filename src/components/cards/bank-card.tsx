@@ -1,4 +1,5 @@
 import { ArrowRight, Star } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,9 +16,11 @@ export function BankCard({ bank }: BankCardProps) {
 			<Link href={`/banks/${bank.id}`}>
 				<CardContent className="p-6">
 					<div className="flex items-start gap-4">
-						<img
+						<Image
 							src={bank.logo || "/placeholder.svg"}
 							alt={bank.name}
+							width={48}
+							height={48}
 							className="h-12 w-12 rounded-lg object-cover shrink-0"
 						/>
 						<div className="flex-1 min-w-0">

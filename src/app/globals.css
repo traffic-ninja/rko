@@ -186,3 +186,9 @@
 		padding-right: 1.5rem;
 	}
 }
+
+/* Defer off-screen list items for faster initial render */
+.list-item-deferred {
+	content-visibility: auto;
+	contain-intrinsic-size: 0 200px;
+}
