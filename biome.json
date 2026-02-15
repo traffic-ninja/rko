@@ -37,9 +37,6 @@
 			},
 			"performance": {
 				"noImgElement": "off"
-			},
-			"security": {
-				"noDangerouslySetInnerHtml": "warn"
 			}
 		}
 	},
@@ -67,21 +64,14 @@
 	},
 	"overrides": [
 		{
-			"includes": ["*.config.{js,ts}", "**/src/**"],
+			"includes": [
+				"*.config.{js,ts}",
+				"**/src/**"
+			],
 			"linter": {
 				"rules": {
 					"performance": {
 						"noImgElement": "warn"
-					}
-				}
-			}
-		},
-		{
-			"includes": ["**/src/components/ui/**"],
-			"linter": {
-				"rules": {
-					"a11y": {
-						"useSemanticElements": "off"
 					}
 				}
 			}

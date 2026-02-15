@@ -2,7 +2,6 @@
 
 import { Minus, Plus } from "lucide-react";
 
-import Image from "next/image";
 import Link from "next/link";
 import type React from "react";
 import { useComparison } from "@/components/comparison-context";
@@ -11,17 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Tariff } from "@/lib/types";
 
-interface TariffCardBankInfo {
-	name: string;
-	logo: string;
-}
-
 interface TariffCardProps {
 	tariff: Tariff;
-	bankInfo?: TariffCardBankInfo;
+	showBankInfo?: boolean;
 }
 
-export function TariffCard({ tariff, bankInfo }: TariffCardProps) {
+export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 	const { addToComparison, removeFromComparison, isInComparison } =
 		useComparison();
 	const inComparison = isInComparison(tariff.id);
@@ -41,12 +35,10 @@ export function TariffCard({ tariff, bankInfo }: TariffCardProps) {
 			<CardContent className="p-6">
 				<div className="flex items-start justify-between mb-4">
 					<div className="flex items-center gap-3">
-						{bankInfo && (
-							<Image
-								src={bankInfo.logo || "/placeholder.svg"}
-								alt={bankInfo.name}
-								width={40}
-								height={40}
+						{showBankInfo && (
+							<img
+								src={tariff.bankLogo || "/placeholder.svg"}
+								alt={tariff.bankName}
 								className="h-10 w-10 rounded-lg object-cover shrink-0"
 							/>
 						)}
@@ -59,9 +51,9 @@ export function TariffCard({ tariff, bankInfo }: TariffCardProps) {
 									<Badge variant="accent">Рекомендуем</Badge>
 								)}
 							</div>
-							{bankInfo && (
+							{showBankInfo && (
 								<p className="text-sm text-foreground-secondary">
-									{bankInfo.name}
+									{tariff.bankName}
 								</p>
 							)}
 						</div>

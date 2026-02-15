@@ -6,9 +6,9 @@ import {
 	Share2,
 	User,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { use } from "react";
 import { BlogCard } from "@/components/cards/blog-card";
 import { ComparisonPanel } from "@/components/layout/comparison-panel";
 import { Footer } from "@/components/layout/footer";
@@ -16,7 +16,7 @@ import { Header } from "@/components/layout/header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getBlogPostBySlug, getBlogPosts } from "@/lib/repositories/blog";
+import { blogPosts } from "@/lib/mock-data";
 
 interface BlogPostPageProps {
 	params: Promise<{ slug: string }>;
@@ -29,29 +29,55 @@ const categoryLabels = {
 	comparisons: "Сравнения",
 };
 
-export const revalidate = 86400;
+export default function BlogPostPage({ params }: BlogPostPageProps) {
+	const { slug } = use(params);
 
-export async function generateStaticParams() {
-	const posts = await getBlogPosts();
-	return posts.map((post) => ({
-		slug: post.slug,
-	}));
-}
-
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
-	const { slug } = await params;
-
-	const [post, allPosts] = await Promise.all([
-		getBlogPostBySlug(slug),
-		getBlogPosts(),
-	]);
+	const post = blogPosts.find((p) => p.slug === slug);
 
 	if (!post) {
 		notFound();
 	}
-	const relatedPosts = allPosts
+
+	const relatedPosts = blogPosts
 		.filter((p) => p.id !== post.id && p.category === post.category)
 		.slice(0, 3);
+
+	// Sample article content
+	const articleContent = `
+    <p>Выбор расчётно-кассового обслуживания (РКО) — одно из первых и самых важных решений для начинающего предпринимателя. От правильного выбора банка и тарифа зависит не только удобство ведения бизнеса, но и ваши расходы на обслуживание счёта.</p>
+    
+    <h2>На что обратить внимание при выборе РКО</h2>
+    
+    <p>При выборе тарифа РКО необходимо учитывать несколько ключевых факторов:</p>
+    
+    <ul>
+      <li><strong>Стоимость обслуживания</strong> — ежемесячная плата за ведение счёта. Многие банки предлагают бесплатные тарифы, но обычно они имеют ограничения по количеству операций.</li>
+      <li><strong>Комиссии за переводы</strong> — стоимость каждого платёжного поручения. Важно оценить, сколько платежей вы планируете совершать в месяц.</li>
+      <li><strong>Лимиты на снятие наличных</strong> — если вам нужно регулярно снимать наличные, обратите внимание на комиссию и лимиты.</li>
+      <li><strong>Дополнительные услуги</strong> — эквайринг, онлайн-бухгалтерия, интеграция с сервисами.</li>
+    </ul>
+    
+    <h2>Типы тарифов РКО</h2>
+    
+    <p>Большинство банков предлагают несколько уровней тарифов:</p>
+    
+    <ol>
+      <li><strong>Стартовый/Бесплатный</strong> — для начинающего бизнеса с небольшим количеством операций</li>
+      <li><strong>Оптимальный</strong> — для активного малого бизнеса со средним количеством платежей</li>
+      <li><strong>Профессиональный</strong> — для крупного бизнеса с большим оборотом и количеством операций</li>
+    </ol>
+    
+    <h2>Как сэкономить на РКО</h2>
+    
+    <p>Несколько простых советов, которые помогут оптимизировать расходы на банковское обслуживание:</p>
+    
+    <ul>
+      <li>Выбирайте тариф, соответствующий вашему реальному объёму операций</li>
+      <li>Обращайте внимание на акции и спецпредложения банков</li>
+      <li>Сравнивайте условия нескольких банков перед принятием решения</li>
+      <li>Используйте онлайн-банкинг вместо визитов в отделение</li>
+    </ul>
+  `;
 
 	return (
 		<div className="flex min-h-screen flex-col">
@@ -101,13 +127,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 							</header>
 
 							{/* Featured Image */}
-							<div className="aspect-video rounded-xl overflow-hidden mb-8 relative">
-								<Image
+							<div className="aspect-video rounded-xl overflow-hidden mb-8">
+								<img
 									src={post.image || "/placeholder.svg"}
 									alt={post.title}
-									fill
-									className="object-cover"
-									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+									className="w-full h-full object-cover"
 								/>
 							</div>
 
@@ -119,8 +143,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:mb-6 [&>ul>li]:mb-2 [&>ul>li]:text-foreground-secondary
                   [&>ol]:list-decimal [&>ol]:pl-6 [&>ol]:mb-6 [&>ol>li]:mb-2 [&>ol>li]:text-foreground-secondary
                   [&_strong]:font-semibold [&_strong]:text-foreground"
-								// biome-ignore lint/security/noDangerouslySetInnerHtml: trusted CMS content
-								dangerouslySetInnerHTML={{ __html: post.content }}
+								dangerouslySetInnerHTML={{ __html: articleContent }}
 							/>
 
 							{/* CTA Block */}

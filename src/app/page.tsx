@@ -18,7 +18,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getHomeData } from "@/lib/repositories/home";
+import { banks, blogPosts, promotions } from "@/lib/mock-data";
 
 const advantages = [
 	{
@@ -64,10 +64,10 @@ const steps = [
 	},
 ];
 
-export const revalidate = 86400;
-
-export default async function HomePage() {
-	const { topBanks, topPromotions, latestPosts } = await getHomeData();
+export default function HomePage() {
+	const topBanks = banks.slice(0, 6);
+	const topPromotions = promotions.slice(0, 4);
+	const latestPosts = blogPosts.slice(0, 3);
 
 	return (
 		<div className="flex min-h-screen flex-col">

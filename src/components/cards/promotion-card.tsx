@@ -1,5 +1,4 @@
 import { ArrowRight, Clock } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,11 +25,9 @@ export function PromotionCard({ promotion }: PromotionCardProps) {
 		<Card className="group hover:shadow-lg transition-all duration-250 border-accent/30 bg-gradient-to-br from-accent/5 to-transparent">
 			<CardContent className="p-6">
 				<div className="flex items-start gap-4 mb-4">
-					<Image
+					<img
 						src={promotion.bankLogo || "/placeholder.svg"}
 						alt={promotion.bankName}
-						width={48}
-						height={48}
 						className="h-12 w-12 rounded-lg object-cover shrink-0"
 					/>
 					<div className="flex-1">
