@@ -1,6 +1,7 @@
 "use client";
 
 import { ExternalLink, Plus, Search, Trash2, Trophy, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useComparison } from "@/components/comparison-context";
@@ -68,11 +69,13 @@ export default function ComparisonPage() {
 			case "bankName":
 				return (
 					<div className="flex items-center gap-2">
-						<img
+						<Image
 							src={tariff.bankLogo || "/placeholder.svg"}
 							alt=""
+							width={24}
+							height={24}
 							className="h-6 w-6 rounded"
-						/>
+						/>{" "}
 						<span>{tariff.bankName}</span>
 					</div>
 				);
@@ -175,15 +178,19 @@ export default function ComparisonPage() {
 													{filteredTariffs.length > 0 ? (
 														filteredTariffs.map((tariff) => (
 															<button
+																type="button"
 																key={tariff.id}
 																onClick={() => handleAddTariff(tariff)}
 																className="w-full flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary hover:bg-muted transition-colors text-left"
 															>
-																<img
+																{" "}
+																<Image
 																	src={tariff.bankLogo || "/placeholder.svg"}
 																	alt=""
+																	width={40}
+																	height={40}
 																	className="h-10 w-10 rounded-lg object-cover shrink-0"
-																/>
+																/>{" "}
 																<div className="flex-1 min-w-0">
 																	<p className="font-medium text-foreground truncate">
 																		{tariff.name}
@@ -235,18 +242,22 @@ export default function ComparisonPage() {
 													>
 														<div className="relative">
 															<button
+																type="button"
 																onClick={() => removeFromComparison(tariff.id)}
 																className="absolute -top-1 -right-1 p-1 rounded-full bg-muted hover:bg-destructive hover:text-destructive-foreground transition-colors"
 																aria-label={`Убрать ${tariff.name} из сравнения`}
 															>
+																{" "}
 																<X className="h-4 w-4" />
 															</button>
 															<div className="flex flex-col items-center">
-																<img
+																<Image
 																	src={tariff.bankLogo || "/placeholder.svg"}
 																	alt=""
+																	width={48}
+																	height={48}
 																	className="h-12 w-12 rounded-lg object-cover mb-2"
-																/>
+																/>{" "}
 																<p className="font-semibold text-foreground">
 																	{tariff.name}
 																</p>
@@ -267,7 +278,10 @@ export default function ComparisonPage() {
 															onOpenChange={setIsDialogOpen}
 														>
 															<DialogTrigger asChild>
-																<button className="w-full h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center text-foreground-muted hover:border-primary hover:text-primary transition-colors">
+																<button
+																	type="button"
+																	className="w-full h-24 border-2 border-dashed border-border rounded-lg flex flex-col items-center justify-center text-foreground-muted hover:border-primary hover:text-primary transition-colors"
+																>
 																	<Plus className="h-6 w-6 mb-1" />
 																	<span className="text-sm">Добавить</span>
 																</button>
@@ -305,12 +319,13 @@ export default function ComparisonPage() {
 												{comparedTariffs.map((tariff) => (
 													<td key={tariff.id} className="p-4">
 														<div className="flex flex-col gap-2">
-															<Button asChild size="sm">
-																<a href="#" onClick={(e) => e.preventDefault()}>
-																	<ExternalLink className="h-4 w-4 mr-2" />
-																	Открыть РКО
-																</a>
-															</Button>
+															<Button
+																size="sm"
+																onClick={(e) => e.preventDefault()} // Placeholder, replace with actual link logic if needed
+															>
+																<ExternalLink className="h-4 w-4 mr-2" />
+																Открыть РКО
+															</Button>{" "}
 															<Button
 																asChild
 																variant="outline"
@@ -354,11 +369,12 @@ export default function ComparisonPage() {
 													</p>
 												</div>
 											</div>
-											<Button asChild className="shrink-0">
-												<a href="#" onClick={(e) => e.preventDefault()}>
-													Открыть РКО в {bestTariff.bankName}
-												</a>
-											</Button>
+											<Button
+												className="shrink-0"
+												onClick={(e) => e.preventDefault()} // Placeholder, replace with actual link logic if needed
+											>
+												Открыть РКО в {bestTariff.bankName}
+											</Button>{" "}
 										</div>
 									</CardContent>
 								</Card>

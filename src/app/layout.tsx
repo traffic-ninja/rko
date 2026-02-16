@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
 import type React from "react";
 import "./globals.css";
 import { ComparisonProvider } from "@/components/comparison-context";
-
-const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = {
 	title: "РКО Сравни — Сравнение тарифов банков для бизнеса",

@@ -107,7 +107,9 @@ export default function SelectionPage() {
 
 	const handleCompareTop3 = () => {
 		clearComparison();
-		topResults.forEach((tariff) => addToComparison(tariff));
+		topResults.forEach((tariff) => {
+			addToComparison(tariff);
+		});
 		router.push("/comparison");
 	};
 

@@ -6,6 +6,7 @@ import {
 	Share2,
 	User,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use } from "react";
@@ -128,11 +129,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
 							{/* Featured Image */}
 							<div className="aspect-video rounded-xl overflow-hidden mb-8">
-								<img
+								<Image
 									src={post.image || "/placeholder.svg"}
 									alt={post.title}
+									width={700}
+									height={400}
 									className="w-full h-full object-cover"
-								/>
+								/>{" "}
 							</div>
 
 							{/* Article Content */}

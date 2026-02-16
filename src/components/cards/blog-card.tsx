@@ -1,4 +1,5 @@
 import { Calendar, Clock } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,11 +21,13 @@ export function BlogCard({ post }: BlogCardProps) {
 		<Card className="group hover:shadow-lg transition-all duration-250 overflow-hidden">
 			<Link href={`/blog/${post.slug}`}>
 				<div className="aspect-video overflow-hidden">
-					<img
+					<Image
 						src={post.image || "/placeholder.svg"}
 						alt={post.title}
+						width={300}
+						height={200}
 						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-					/>
+					/>{" "}
 				</div>
 				<CardContent className="p-5">
 					<Badge variant="secondary" className="mb-3">

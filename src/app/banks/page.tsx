@@ -48,7 +48,6 @@ export default function BanksPage() {
 			case "price":
 				result.sort((a, b) => a.minPrice - b.minPrice);
 				break;
-			case "popularity":
 			default:
 				result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 				break;

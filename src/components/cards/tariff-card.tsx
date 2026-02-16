@@ -1,6 +1,7 @@
 "use client";
 
 import { Minus, Plus } from "lucide-react";
+import Image from "next/image";
 
 import Link from "next/link";
 import type React from "react";
@@ -36,9 +37,11 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 				<div className="flex items-start justify-between mb-4">
 					<div className="flex items-center gap-3">
 						{showBankInfo && (
-							<img
+							<Image
 								src={tariff.bankLogo || "/placeholder.svg"}
 								alt={tariff.bankName}
+								width={40}
+								height={40}
 								className="h-10 w-10 rounded-lg object-cover shrink-0"
 							/>
 						)}

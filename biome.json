@@ -37,6 +37,12 @@
 			},
 			"performance": {
 				"noImgElement": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
+			},
+			"suspicious": {
+				"noArrayIndexKey": "warn"
 			}
 		}
 	},
@@ -64,10 +70,7 @@
 	},
 	"overrides": [
 		{
-			"includes": [
-				"*.config.{js,ts}",
-				"**/src/**"
-			],
+			"includes": ["*.config.{js,ts}", "**/src/**"],
 			"linter": {
 				"rules": {
 					"performance": {

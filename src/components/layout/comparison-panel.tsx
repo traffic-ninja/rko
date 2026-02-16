@@ -1,6 +1,7 @@
 "use client";
 
 import { BarChart3, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useComparison } from "@/components/comparison-context";
 import { Button } from "@/components/ui/button";
@@ -25,19 +26,23 @@ export function ComparisonPanel() {
 									key={tariff.id}
 									className="flex items-center gap-2 bg-muted rounded-md px-3 py-1.5 shrink-0"
 								>
-									<img
+									<Image
 										src={tariff.bankLogo || "/placeholder.svg"}
 										alt={tariff.bankName}
+										width={20}
+										height={20}
 										className="h-5 w-5 rounded"
-									/>
+									/>{" "}
 									<span className="text-sm font-medium text-foreground truncate max-w-[120px]">
 										{tariff.name}
 									</span>
 									<button
+										type="button"
 										onClick={() => removeFromComparison(tariff.id)}
 										className="text-foreground-muted hover:text-foreground transition-colors"
 										aria-label={`Удалить ${tariff.name} из сравнения`}
 									>
+										{" "}
 										<X className="h-4 w-4" />
 									</button>
 								</div>

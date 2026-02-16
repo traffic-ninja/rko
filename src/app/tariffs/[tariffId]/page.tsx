@@ -9,6 +9,7 @@ import {
 	Plus,
 	Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use } from "react";
@@ -90,11 +91,13 @@ export default function TariffPage({ params }: TariffPageProps) {
 					<div className="bg-background rounded-xl border border-border p-6 md:p-8 mb-8">
 						<div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
 							<div className="flex items-start gap-4 md:gap-6">
-								<img
+								<Image
 									src={bank.logo || "/placeholder.svg"}
 									alt={bank.name}
+									width={64}
+									height={64}
 									className="h-14 w-14 md:h-16 md:w-16 rounded-xl object-cover shrink-0"
-								/>
+								/>{" "}
 								<div>
 									<div className="flex items-center gap-3 mb-2 flex-wrap">
 										<h1 className="text-2xl md:text-3xl font-bold text-foreground">
@@ -121,17 +124,13 @@ export default function TariffPage({ params }: TariffPageProps) {
 								</div>
 							</div>
 							<div className="flex flex-col sm:flex-row gap-3 lg:flex-col xl:flex-row">
-								<Button size="lg" asChild>
-									<a
-										href="#"
-										target="_blank"
-										rel="noopener noreferrer"
-										onClick={(e) => e.preventDefault()}
-									>
-										<ExternalLink className="h-4 w-4 mr-2" />
-										Открыть РКО
-									</a>
-								</Button>
+								<Button
+									size="lg"
+									onClick={(e) => e.preventDefault()} // Placeholder, replace with actual link logic if needed
+								>
+									<ExternalLink className="h-4 w-4 mr-2" />
+									Открыть РКО
+								</Button>{" "}
 								<Button
 									size="lg"
 									variant={inComparison ? "secondary" : "outline"}
@@ -283,18 +282,11 @@ export default function TariffPage({ params }: TariffPageProps) {
 										variant="secondary"
 										size="lg"
 										className="w-full"
-										asChild
+										onClick={(e) => e.preventDefault()} // Placeholder, replace with actual link logic if needed
 									>
-										<a
-											href="#"
-											target="_blank"
-											rel="noopener noreferrer"
-											onClick={(e) => e.preventDefault()}
-										>
-											Открыть РКО
-											<ArrowRight className="h-4 w-4 ml-2" />
-										</a>
-									</Button>
+										Открыть РКО
+										<ArrowRight className="h-4 w-4 ml-2" />
+									</Button>{" "}
 								</CardContent>
 							</Card>
 

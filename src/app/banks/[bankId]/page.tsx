@@ -8,6 +8,7 @@ import {
 	MessageSquare,
 	Star,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { use, useState } from "react";
@@ -61,11 +62,13 @@ export default function BankPage({ params }: BankPageProps) {
 					<div className="bg-background rounded-xl border border-border p-6 md:p-8 mb-8">
 						<div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
 							<div className="flex items-start gap-4 md:gap-6">
-								<img
+								<Image
 									src={bank.logo || "/placeholder.svg"}
 									alt={bank.name}
+									width={80}
+									height={80}
 									className="h-16 w-16 md:h-20 md:w-20 rounded-xl object-cover shrink-0"
-								/>
+								/>{" "}
 								<div>
 									<div className="flex items-center gap-3 mb-2">
 										<h1 className="text-2xl md:text-3xl font-bold text-foreground">
@@ -85,17 +88,14 @@ export default function BankPage({ params }: BankPageProps) {
 									</p>
 								</div>
 							</div>
-							<Button size="lg" className="shrink-0" asChild>
-								<a
-									href="#"
-									target="_blank"
-									rel="noopener noreferrer"
-									onClick={(e) => e.preventDefault()}
-								>
-									<ExternalLink className="h-4 w-4 mr-2" />
-									Открыть РКО на сайте банка
-								</a>
-							</Button>
+							<Button
+								size="lg"
+								className="shrink-0"
+								onClick={(e) => e.preventDefault()} // Placeholder, replace with actual link logic if needed
+							>
+								<ExternalLink className="h-4 w-4 mr-2" />
+								Открыть РКО на сайте банка
+							</Button>{" "}
 						</div>
 					</div>
 
