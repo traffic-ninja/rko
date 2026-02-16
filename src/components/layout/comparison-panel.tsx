@@ -27,8 +27,8 @@ export function ComparisonPanel() {
 									className="flex items-center gap-2 bg-muted rounded-md px-3 py-1.5 shrink-0"
 								>
 									<Image
-										src={tariff.bankLogo || "/placeholder.svg"}
-										alt={tariff.bankName}
+										src={tariff.bank_logo || "/placeholder.svg"}
+										alt={tariff.bank_name}
 										width={20}
 										height={20}
 										className="h-5 w-5 rounded"

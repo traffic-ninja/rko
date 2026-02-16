@@ -17,10 +17,10 @@ import { Header } from "@/components/layout/header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { blogPosts } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 
 interface BlogPostPageProps {
-	params: Promise<{ slug: string }>;
+	params: { slug: string };
 }
 
 const categoryLabels = {
@@ -30,18 +30,33 @@ const categoryLabels = {
 	comparisons: "Сравнения",
 };
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-	const { slug } = use(params);
+export default async function BlogPostPage({ params }: BlogPostPageProps) {
+	const { slug } = params;
 
-	const post = blogPosts.find((p) => p.slug === slug);
+  const supabase = await createClient();
 
-	if (!post) {
-		notFound();
-	}
+  const { data: post, error: postError } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .eq("slug", slug)
+    .single();
 
-	const relatedPosts = blogPosts
-		.filter((p) => p.id !== post.id && p.category === post.category)
-		.slice(0, 3);
+  if (postError || !post) {
+    console.error("Ошибка при загрузке статьи:", postError);
+    notFound();
+  }
+
+  const { data: relatedPostsData, error: relatedPostsError } = await supabase
+    .from("blog_posts")
+    .select("*")
+    .neq("id", post.id)
+    .eq("category", post.category)
+    .limit(3);
+
+  if (relatedPostsError) {
+    console.error("Ошибка при загрузке похожих статей:", relatedPostsError);
+  }
+  const relatedPosts = relatedPostsData || [];
 
 	// Sample article content
 	const articleContent = `
@@ -105,25 +120,22 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 						<div className="lg:col-span-2">
 							{/* Article Header */}
 							<header className="mb-8">
-								<Badge variant="secondary" className="mb-4">
-									{categoryLabels[post.category]}
-								</Badge>
+									<Badge variant="secondary" className="mb-4">
+										{categoryLabels[post.category as keyof typeof categoryLabels]}								</Badge>
 								<h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
 									{post.title}
 								</h1>
 								<div className="flex flex-wrap items-center gap-4 text-sm text-foreground-secondary">
 									<span className="flex items-center gap-1">
 										<Calendar className="h-4 w-4" />
-										{new Date(post.publishedAt).toLocaleDateString("ru-RU", {
-											day: "numeric",
+										                                                                                 {new Date(post.published_at).toLocaleDateString("ru-RU", {											day: "numeric",
 											month: "long",
 											year: "numeric",
 										})}
 									</span>
 									<span className="flex items-center gap-1">
 										<Clock className="h-4 w-4" />
-										{post.readTime} мин чтения
-									</span>
+										                                                                                 {post.read_time} мин чтения									</span>
 								</div>
 							</header>
 
@@ -177,7 +189,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 										</div>
 										<div>
 											<p className="font-medium text-foreground">
-												{post.author.name}
+												{post.author_name}
 											</p>
 											<p className="text-sm text-foreground-secondary">
 												Автор статьи

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Bank } from "@/lib/types";
+import type { Tables } from "@/lib/supabase/types";
 
 interface BankCardProps {
-	bank: Bank;
+	bank: Tables<"banks">;
 }
 
 export function BankCard({ bank }: BankCardProps) {
@@ -28,7 +28,7 @@ export function BankCard({ bank }: BankCardProps) {
 								<h3 className="text-lg font-semibold text-foreground truncate">
 									{bank.name}
 								</h3>
-								{bank.hasFreeTariff && (
+								{bank.has_free_tariff && (
 									<Badge variant="success" className="shrink-0">
 										Есть бесплатный
 									</Badge>
@@ -50,13 +50,13 @@ export function BankCard({ bank }: BankCardProps) {
 									<p className="text-sm text-foreground-muted">
 										от{" "}
 										<span className="text-lg font-bold text-foreground">
-											{bank.minPrice === 0
+											{bank.min_price === 0
 												? "Бесплатно"
-												: `${bank.minPrice.toLocaleString("ru-RU")} ₽`}
+												: `${bank.min_price.toLocaleString("ru-RU")} ₽`}
 										</span>
 									</p>
 									<p className="text-xs text-foreground-muted">
-										{bank.tariffCount} тарифов
+										{bank.tariff_count} тарифов
 									</p>
 								</div>
 								<Button

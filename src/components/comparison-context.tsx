@@ -7,11 +7,11 @@ import {
 	useContext,
 	useState,
 } from "react";
-import type { Tariff } from "@/lib/types";
+import type { Tables } from "@/lib/supabase/types";
 
 interface ComparisonContextType {
-	comparedTariffs: Tariff[];
-	addToComparison: (tariff: Tariff) => void;
+	comparedTariffs: Tables<"tariffs">[];
+	addToComparison: (tariff: Tables<"tariffs">) => void;
 	removeFromComparison: (tariffId: string) => void;
 	clearComparison: () => void;
 	isInComparison: (tariffId: string) => boolean;
@@ -22,9 +22,9 @@ const ComparisonContext = createContext<ComparisonContextType | undefined>(
 );
 
 export function ComparisonProvider({ children }: { children: ReactNode }) {
-	const [comparedTariffs, setComparedTariffs] = useState<Tariff[]>([]);
+	const [comparedTariffs, setComparedTariffs] = useState<Tables<'tariffs'>[]>([]);
 
-	const addToComparison = useCallback((tariff: Tariff) => {
+	const addToComparison = useCallback((tariff: Tables<'tariffs'>) => {
 		setComparedTariffs((prev) => {
 			if (prev.length >= 3) return prev;
 			if (prev.find((t) => t.id === tariff.id)) return prev;

@@ -9,10 +9,10 @@ import { useComparison } from "@/components/comparison-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Tariff } from "@/lib/types";
+import type { Tables } from "@/lib/supabase/types";
 
 interface TariffCardProps {
-	tariff: Tariff;
+	tariff: Tables<"tariffs">;
 	showBankInfo?: boolean;
 }
 
@@ -38,32 +38,31 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 					<div className="flex items-center gap-3">
 						{showBankInfo && (
 							<Image
-								src={tariff.bankLogo || "/placeholder.svg"}
-								alt={tariff.bankName}
+								src={tariff.bank_logo || "/placeholder.svg"}
+								alt={tariff.bank_name}
 								width={40}
 								height={40}
 								className="h-10 w-10 rounded-lg object-cover shrink-0"
 							/>
 						)}
 						<div>
-							<div className="flex items-center gap-2">
-								<h3 className="text-lg font-semibold text-foreground">
-									{tariff.name}
-								</h3>
-								{tariff.isRecommended && (
-									<Badge variant="accent">Рекомендуем</Badge>
-								)}
-							</div>
-							{showBankInfo && (
+															<div className="flex items-center gap-2">
+																<h3 className="text-lg font-semibold text-foreground">
+																	{tariff.name}
+																</h3>
+																{tariff.is_recommended && (
+																	<Badge variant="accent">Рекомендуем</Badge>
+																)}
+															</div>							{showBankInfo && (
 								<p className="text-sm text-foreground-secondary">
-									{tariff.bankName}
+									{tariff.bank_name}
 								</p>
 							)}
 						</div>
 					</div>
 					<div className="text-right">
 						<p className="text-2xl font-bold text-foreground">
-							{tariff.priceLabel}
+							{tariff.price_label}
 						</p>
 					</div>
 				</div>
@@ -72,35 +71,34 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 					{tariff.description}
 				</p>
 
-				<div className="space-y-2 mb-4">
-					<div className="flex justify-between text-sm">
-						<span className="text-foreground-secondary">
-							Бесплатных платежей:
-						</span>
-						<span className="font-medium text-foreground">
-							{tariff.freeTransfers}
-						</span>
-					</div>
-					<div className="flex justify-between text-sm">
+									<div className="space-y-2 mb-4">
+										<div className="flex justify-between text-sm">
+											<span className="text-foreground-secondary">
+												Бесплатных платежей:
+											</span>
+											<span className="font-medium text-foreground">
+												{tariff.free_transfers}
+											</span>
+										</div>					<div className="flex justify-between text-sm">
 						<span className="text-foreground-secondary">
 							Комиссия за перевод:
 						</span>
 						<span className="font-medium text-foreground">
-							{tariff.transferCommission}
+							{tariff.transfer_commission}
 						</span>
 					</div>
 					<div className="flex justify-between text-sm">
 						<span className="text-foreground-secondary">Снятие наличных:</span>
 						<span className="font-medium text-foreground">
-							{tariff.cashWithdrawalCommission}
+							{tariff.cash_withdrawal_commission}
 						</span>
 					</div>
 				</div>
 
-				{tariff.isRecommended && tariff.recommendationReason && (
+				{tariff.is_recommended && tariff.recommendation_reason && (
 					<div className="bg-accent/10 rounded-md p-3 mb-4">
 						<p className="text-sm text-accent font-medium">
-							{tariff.recommendationReason}
+							{tariff.recommendation_reason}
 						</p>
 					</div>
 				)}

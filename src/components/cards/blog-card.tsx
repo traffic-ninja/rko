@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { BlogPost } from "@/lib/types";
+import type { Tables } from "@/lib/supabase/types";
 
 interface BlogCardProps {
-	post: BlogPost;
+	post: Tables<"blog_posts">;
 }
 
 const categoryLabels = {
@@ -31,7 +31,7 @@ export function BlogCard({ post }: BlogCardProps) {
 				</div>
 				<CardContent className="p-5">
 					<Badge variant="secondary" className="mb-3">
-						{categoryLabels[post.category]}
+						{categoryLabels[post.category as keyof typeof categoryLabels] || post.category}
 					</Badge>
 					<h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
 						{post.title}
@@ -42,14 +42,14 @@ export function BlogCard({ post }: BlogCardProps) {
 					<div className="flex items-center gap-4 text-xs text-foreground-muted">
 						<span className="flex items-center gap-1">
 							<Calendar className="h-3 w-3" />
-							{new Date(post.publishedAt).toLocaleDateString("ru-RU", {
+							{new Date(post.published_at).toLocaleDateString("ru-RU", {
 								day: "numeric",
 								month: "short",
 							})}
 						</span>
 						<span className="flex items-center gap-1">
 							<Clock className="h-3 w-3" />
-							{post.readTime} мин
+							{post.read_time} мин
 						</span>
 					</div>
 				</CardContent>

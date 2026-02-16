@@ -1,5 +1,3 @@
-"use client";
-
 import {
 	ArrowRight,
 	Check,
@@ -12,7 +10,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { use } from "react";
+import type React from "react";
 import { TariffCard } from "@/components/cards/tariff-card";
 import { useComparison } from "@/components/comparison-context";
 import { ComparisonPanel } from "@/components/layout/comparison-panel";
@@ -21,34 +19,56 @@ import { Header } from "@/components/layout/header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { banks, tariffs } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 
 interface TariffPageProps {
-	params: Promise<{ tariffId: string }>;
+	params: { tariffId: string };
 }
 
-export default function TariffPage({ params }: TariffPageProps) {
-	const { tariffId } = use(params);
+export default async function TariffPage({ params }: TariffPageProps) {
+	const { tariffId } = params;
 	const { addToComparison, removeFromComparison, isInComparison } =
 		useComparison();
 
-	const tariff = tariffs.find((t) => t.id === tariffId);
-	const bank = tariff ? banks.find((b) => b.id === tariff.bankId) : null;
+  const supabase = await createClient();
 
-	if (!tariff || !bank) {
-		notFound();
-	}
+  const { data: tariff, error: tariffError } = await supabase
+    .from("tariffs")
+    .select("*")
+    .eq("id", tariffId)
+    .single();
+
+  if (tariffError || !tariff) {
+    console.error("Ошибка при загрузке тарифа:", tariffError);
+    notFound();
+  }
+
+  const { data: bank, error: bankError } = await supabase
+    .from("banks")
+    .select("*")
+    .eq("id", tariff.bank_id)
+    .single();
+
+  if (bankError || !bank) {
+    console.error("Ошибка при загрузке банка:", bankError);
+    notFound();
+  }
+
 
 	const inComparison = isInComparison(tariff.id);
 
-	// Get similar tariffs (same price range or same bank type)
-	const similarTariffs = tariffs
-		.filter(
-			(t) =>
-				t.id !== tariff.id &&
-				(Math.abs(t.price - tariff.price) < 1000 || t.bankId === tariff.bankId)
-		)
-		.slice(0, 4);
+  const { data: similarTariffsData, error: similarTariffsError } = await supabase
+    .from("tariffs")
+    .select("*")
+    .neq("id", tariff.id) // Исключаем текущий тариф
+    .or(`price.gte.${tariff.price - 1000},price.lte.${tariff.price + 1000},bank_id.eq.${tariff.bank_id}`) // Похожие по цене или тому же банку
+    .limit(4);
+
+  if (similarTariffsError) {
+    console.error("Ошибка при загрузке похожих тарифов:", similarTariffsError);
+  }
+  const similarTariffs = similarTariffsData || [];
+
 
 	const handleCompareClick = () => {
 		if (inComparison) {
@@ -103,7 +123,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 										<h1 className="text-2xl md:text-3xl font-bold text-foreground">
 											{tariff.name}
 										</h1>
-										{tariff.isRecommended && (
+										{tariff.is_recommended && (
 											<Badge variant="accent">Рекомендуем</Badge>
 										)}
 									</div>
@@ -118,7 +138,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 											Стоимость обслуживания
 										</p>
 										<p className="text-3xl md:text-4xl font-bold text-foreground">
-											{tariff.priceLabel}
+											{tariff.price_label}
 										</p>
 									</div>
 								</div>
@@ -168,7 +188,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 														Стоимость обслуживания
 													</td>
 													<td className="py-3 font-medium text-foreground text-right">
-														{tariff.priceLabel}
+														{tariff.price_label}
 													</td>
 												</tr>
 												<tr>
@@ -176,7 +196,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 														Лимит операций
 													</td>
 													<td className="py-3 font-medium text-foreground text-right">
-														{tariff.operationsLimit} платежей/мес
+														{tariff.operations_limit} платежей/мес
 													</td>
 												</tr>
 												<tr>
@@ -184,7 +204,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 														Бесплатных переводов
 													</td>
 													<td className="py-3 font-medium text-foreground text-right">
-														{tariff.freeTransfers}
+														{tariff.free_transfers}
 													</td>
 												</tr>
 												<tr>
@@ -192,7 +212,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 														Комиссия за перевод
 													</td>
 													<td className="py-3 font-medium text-foreground text-right">
-														{tariff.transferCommission}
+														{tariff.transfer_commission}
 													</td>
 												</tr>
 												<tr>
@@ -200,7 +220,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 														Снятие наличных
 													</td>
 													<td className="py-3 font-medium text-foreground text-right">
-														{tariff.cashWithdrawalCommission}
+														{tariff.cash_withdrawal_commission}
 													</td>
 												</tr>
 											</tbody>
@@ -219,7 +239,7 @@ export default function TariffPage({ params }: TariffPageProps) {
 								</CardHeader>
 								<CardContent>
 									<p className="text-foreground-secondary leading-relaxed">
-										{tariff.targetAudience}
+										{tariff.target_audience}
 									</p>
 									<p className="text-foreground-secondary leading-relaxed mt-3">
 										{tariff.description}
@@ -233,9 +253,8 @@ export default function TariffPage({ params }: TariffPageProps) {
 									<CardTitle>Что входит в тариф</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<ul className="space-y-3">
-										{tariff.features.map((feature, index) => (
-											<li key={index} className="flex items-start gap-3">
+																				<ul className="space-y-3">
+																					{tariff.features.map((feature: string, index: number) => (											<li key={index} className="flex items-start gap-3">
 												<div className="h-5 w-5 rounded-full bg-success/10 flex items-center justify-center shrink-0 mt-0.5">
 													<Check className="h-3 w-3 text-success" />
 												</div>
@@ -254,9 +273,8 @@ export default function TariffPage({ params }: TariffPageProps) {
 									<CardTitle>Требования для открытия</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<ul className="space-y-3">
-										{tariff.requirements.map((req, index) => (
-											<li key={index} className="flex items-start gap-3">
+																				<ul className="space-y-3">
+																					{tariff.requirements.map((req: string, index: number) => (											<li key={index} className="flex items-start gap-3">
 												<span className="h-1.5 w-1.5 rounded-full bg-primary mt-2 shrink-0" />
 												<span className="text-foreground-secondary">{req}</span>
 											</li>

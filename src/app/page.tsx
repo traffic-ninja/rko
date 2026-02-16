@@ -18,7 +18,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { banks, blogPosts, promotions } from "@/lib/mock-data";
+import { createClient } from "@/lib/supabase/server";
 
 const advantages = [
 	{
@@ -64,10 +64,33 @@ const steps = [
 	},
 ];
 
-export default function HomePage() {
-	const topBanks = banks.slice(0, 6);
-	const topPromotions = promotions.slice(0, 4);
-	const latestPosts = blogPosts.slice(0, 3);
+export default async function HomePage() {
+  const supabase = await createClient();
+
+  const [
+    { data: banksData, error: banksError },
+    { data: promotionsData, error: promotionsError },
+    { data: blogPostsData, error: blogPostsError },
+  ] = await Promise.all([
+    supabase.from("banks").select("*").limit(6),
+    supabase.from("promotions").select("*").limit(4),
+    supabase.from("blog_posts").select("*").order("published_at", { ascending: false }).limit(3),
+  ]);
+
+  if (banksError) {
+    console.error("Ошибка при загрузке банков:", banksError);
+  }
+  const topBanks = banksData || [];
+
+  if (promotionsError) {
+    console.error("Ошибка при загрузке акций:", promotionsError);
+  }
+  const topPromotions = promotionsData || [];
+
+  if (blogPostsError) {
+    console.error("Ошибка при загрузке статей блога:", blogPostsError);
+  }
+  const latestPosts = blogPostsData || [];
 
 	return (
 		<div className="flex min-h-screen flex-col">

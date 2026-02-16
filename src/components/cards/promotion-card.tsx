@@ -4,21 +4,21 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Promotion } from "@/lib/types";
+import type { Tables } from "@/lib/supabase/types";
 
 interface PromotionCardProps {
-	promotion: Promotion;
+	promotion: Tables<"promotions">;
 }
 
-const typeLabels = {
+const typeLabels: Record<string, string> = {
 	cashback: "Кэшбэк",
 	free_service: "Бесплатно",
 	bonus: "Бонус",
 };
 
 export function PromotionCard({ promotion }: PromotionCardProps) {
-	const isExpiringSoon = promotion.expiresAt
-		? new Date(promotion.expiresAt).getTime() - Date.now() <
+	const isExpiringSoon = promotion.expires_at
+		? new Date(promotion.expires_at).getTime() - Date.now() <
 			7 * 24 * 60 * 60 * 1000
 		: false;
 
@@ -27,8 +27,8 @@ export function PromotionCard({ promotion }: PromotionCardProps) {
 			<CardContent className="p-6">
 				<div className="flex items-start gap-4 mb-4">
 					<Image
-						src={promotion.bankLogo || "/placeholder.svg"}
-						alt={promotion.bankName}
+						src={promotion.bank_logo || "/placeholder.svg"}
+						alt={promotion.bank_name}
 						width={48}
 						height={48}
 						className="h-12 w-12 rounded-lg object-cover shrink-0"
@@ -41,7 +41,7 @@ export function PromotionCard({ promotion }: PromotionCardProps) {
 							{promotion.title}
 						</h3>
 						<p className="text-sm text-foreground-secondary">
-							{promotion.bankName}
+							{promotion.bank_name}
 						</p>
 					</div>
 				</div>
@@ -50,14 +50,14 @@ export function PromotionCard({ promotion }: PromotionCardProps) {
 					{promotion.description}
 				</p>
 
-				{promotion.expiresAt && (
+				{promotion.expires_at && (
 					<div
 						className={`flex items-center gap-2 text-sm mb-4 ${isExpiringSoon ? "text-destructive" : "text-foreground-muted"}`}
 					>
 						<Clock className="h-4 w-4" />
 						<span>
 							До{" "}
-							{new Date(promotion.expiresAt).toLocaleDateString("ru-RU", {
+							{new Date(promotion.expires_at).toLocaleDateString("ru-RU", {
 								day: "numeric",
 								month: "long",
 							})}

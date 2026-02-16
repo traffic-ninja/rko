@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    srcDir: true,
-  },
+  // Удалена устаревшая опция srcDir
 }
 
 export default nextConfig
