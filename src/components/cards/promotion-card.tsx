@@ -29,8 +29,9 @@ export function PromotionCard({ promotion }: PromotionCardProps) {
 					<Image
 						src={promotion.bank_logo || "/placeholder.svg"}
 						alt={promotion.bank_name}
-						width={48}
-						height={48}
+						width={64}
+						height={64}
+						sizes="(max-width: 640px) 48px, 64px"
 						className="h-12 w-12 rounded-lg object-cover shrink-0"
 					/>{" "}
 					<div className="flex-1">

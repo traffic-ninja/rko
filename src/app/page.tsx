@@ -18,6 +18,7 @@ import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { WebsiteJsonLd } from "@/components/structured-data";
 import { createClient } from "@/lib/supabase/server";
 
 const advantages = [
@@ -94,6 +95,7 @@ export default async function HomePage() {
 
 	return (
 		<div className="flex min-h-screen flex-col">
+			<WebsiteJsonLd />
 			<Header />
 
 			<main className="flex-1">

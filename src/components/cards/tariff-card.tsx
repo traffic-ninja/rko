@@ -40,8 +40,9 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 							<Image
 								src={tariff.bank_logo || "/placeholder.svg"}
 								alt={tariff.bank_name}
-								width={40}
-								height={40}
+								width={48}
+								height={48}
+								sizes="(max-width: 640px) 40px, 48px"
 								className="h-10 w-10 rounded-lg object-cover shrink-0"
 							/>
 						)}

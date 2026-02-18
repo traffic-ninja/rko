@@ -64,6 +64,8 @@ export function BankClientPage({ initialBank, initialBankTariffs }: BankClientPa
 									alt={bank.name}
 									width={80}
 									height={80}
+									sizes="(max-width: 768px) 64px, 80px"
+									priority
 									className="h-16 w-16 md:h-20 md:w-20 rounded-xl object-cover shrink-0"
 								/>{" "}
 								<div>

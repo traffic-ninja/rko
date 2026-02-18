@@ -48,5 +48,25 @@
 -   **`pnpm dlx supabase deploy`**
     Развертывает ваши локальные изменения схемы (миграции) и Edge-функции в связанный удаленный проект Supabase.
 
+## Бэкап базы данных
+
+-   **`pnpm supabase:backup`**
+    Создаёт дамп (бэкап) локальной базы данных с именем файла вида `backup_YYYYMMDD_HHMMSS.sql` в папке `backups/`. Рекомендуется выполнять перед внесением крупных изменений.
+
+-   **`pnpm dlx supabase db dump --local > backups/backup.sql`**
+    Базовая команда для создания бэкапа локальной базы данных в файл `backup.sql`.
+
+-   **`pnpm dlx supabase db dump --db-url "YOUR_REMOTE_DB_URL" > backups/remote_backup.sql`**
+    Создаёт дамп удалённой базы данных Supabase. Замените `YOUR_REMOTE_DB_URL` на строку подключения к вашей удалённой базе (можно найти в панели управления Supabase).
+
+-   **`pnpm dlx supabase db dump --data-only --local > backups/data_only.sql`**
+    Создаёт дамп только данных без схемы. Полезно для бэкапа контента перед сбросом базы.
+
+-   **`pnpm dlx supabase db dump --schema-only --local > backups/schema_only.sql`**
+    Создаёт дамп только схемы базы данных без данных. Полезно для документирования структуры БД.
+
+-   **`psql "YOUR_DB_URL" < backups/backup_YYYYMMDD_HHMMSS.sql`**
+    Восстанавливает базу данных из SQL-дампа. Замените `YOUR_DB_URL` на строку подключения и укажите нужный файл бэкапа.
+
 ---
 *Примечание: Некоторые команды могут требовать установки переменных окружения, таких как `SUPABASE_PROJECT_ID` или `SUPABASE_REF`.*

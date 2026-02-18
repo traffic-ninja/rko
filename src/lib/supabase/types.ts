@@ -343,25 +343,10 @@ export const Constants = {
 
 // Удобные алиасы для типов данных
 export type Bank = Tables<"banks">
-export type BankInsert = TablesInsert<"banks">
-export type BankUpdate = TablesUpdate<"banks">
 
 export type Tariff = Tables<"tariffs">
-export type TariffInsert = TablesInsert<"tariffs">
-export type TariffUpdate = TablesUpdate<"tariffs">
 
 export type Promotion = Tables<"promotions">
-export type PromotionInsert = TablesInsert<"promotions">
-export type PromotionUpdate = TablesUpdate<"promotions">
 
 export type BlogPost = Tables<"blog_posts">
-export type BlogPostInsert = TablesInsert<"blog_posts">
-export type BlogPostUpdate = TablesUpdate<"blog_posts">
 
-// Тип для параметров выбора (не из БД, а для логики приложения)
-export interface SelectionParams {
-  businessType: "ip" | "ooo" | "self_employed"
-  monthlyTurnover: number
-  monthlyPayments: number
-  region: string
-}

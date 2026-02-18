@@ -24,8 +24,9 @@ export function BlogCard({ post }: BlogCardProps) {
 					<Image
 						src={post.image || "/placeholder.svg"}
 						alt={post.title}
-						width={300}
-						height={200}
+						width={500}
+						height={300}
+						sizes="(max-width: 640px) 300px, (max-width: 1024px) 400px, 500px"
 						className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
 					/>{" "}
 				</div>

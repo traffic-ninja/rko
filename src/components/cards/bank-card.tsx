@@ -19,8 +19,9 @@ export function BankCard({ bank }: BankCardProps) {
 						<Image
 							src={bank.logo || "/placeholder.svg"}
 							alt={bank.name}
-							width={48}
-							height={48}
+							width={64}
+							height={64}
+							sizes="(max-width: 640px) 48px, 64px"
 							className="h-12 w-12 rounded-lg object-cover shrink-0"
 						/>{" "}
 						<div className="flex-1 min-w-0">
