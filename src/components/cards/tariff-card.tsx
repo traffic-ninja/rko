@@ -47,14 +47,15 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 							/>
 						)}
 						<div>
-															<div className="flex items-center gap-2">
-																<h3 className="text-lg font-semibold text-foreground">
-																	{tariff.name}
-																</h3>
-																{tariff.is_recommended && (
-																	<Badge variant="accent">Рекомендуем</Badge>
-																)}
-															</div>							{showBankInfo && (
+							<div className="flex items-center gap-2">
+								<h3 className="text-lg font-semibold text-foreground">
+									{tariff.name}
+								</h3>
+								{tariff.is_recommended && (
+									<Badge variant="accent">Рекомендуем</Badge>
+								)}
+							</div>{" "}
+							{showBankInfo && (
 								<p className="text-sm text-foreground-secondary">
 									{tariff.bank_name}
 								</p>
@@ -72,15 +73,16 @@ export function TariffCard({ tariff, showBankInfo = false }: TariffCardProps) {
 					{tariff.description}
 				</p>
 
-									<div className="space-y-2 mb-4">
-										<div className="flex justify-between text-sm">
-											<span className="text-foreground-secondary">
-												Бесплатных платежей:
-											</span>
-											<span className="font-medium text-foreground">
-												{tariff.free_transfers}
-											</span>
-										</div>					<div className="flex justify-between text-sm">
+				<div className="space-y-2 mb-4">
+					<div className="flex justify-between text-sm">
+						<span className="text-foreground-secondary">
+							Бесплатных платежей:
+						</span>
+						<span className="font-medium text-foreground">
+							{tariff.free_transfers}
+						</span>
+					</div>{" "}
+					<div className="flex justify-between text-sm">
 						<span className="text-foreground-secondary">
 							Комиссия за перевод:
 						</span>

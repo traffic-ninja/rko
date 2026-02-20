@@ -32,7 +32,8 @@ export function BlogCard({ post }: BlogCardProps) {
 				</div>
 				<CardContent className="p-5">
 					<Badge variant="secondary" className="mb-3">
-						{categoryLabels[post.category as keyof typeof categoryLabels] || post.category}
+						{categoryLabels[post.category as keyof typeof categoryLabels] ||
+							post.category}
 					</Badge>
 					<h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
 						{post.title}

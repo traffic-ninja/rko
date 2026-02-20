@@ -18,11 +18,14 @@ import {
 import type { Tables } from "@/lib/supabase/types";
 
 interface PromotionsClientPageProps {
-  initialPromotions: Tables<'promotions'>[];
-  initialBanks: Tables<'banks'>[];
+	initialPromotions: Tables<"promotions">[];
+	initialBanks: Tables<"banks">[];
 }
 
-export function PromotionsClientPage({ initialPromotions, initialBanks }: PromotionsClientPageProps) {
+export function PromotionsClientPage({
+	initialPromotions,
+	initialBanks,
+}: PromotionsClientPageProps) {
 	const [selectedType, setSelectedType] = useState<string>("all");
 	const [selectedBank, setSelectedBank] = useState<string>("all");
 	const [showFilters, setShowFilters] = useState(false);
@@ -39,7 +42,7 @@ export function PromotionsClientPage({ initialPromotions, initialBanks }: Promot
 		}
 
 		return result;
-	}, [selectedType, selectedBank]);
+	}, [selectedType, selectedBank, initialPromotions]);
 
 	const clearFilters = () => {
 		setSelectedType("all");
@@ -136,7 +139,10 @@ export function PromotionsClientPage({ initialPromotions, initialBanks }: Promot
 					{filteredPromotions.length > 0 ? (
 						<div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 							{filteredPromotions.map((promotion) => (
-								<PromotionCard key={promotion.id} promotion={promotion as Tables<'promotions'>} />
+								<PromotionCard
+									key={promotion.id}
+									promotion={promotion as Tables<"promotions">}
+								/>
 							))}
 						</div>
 					) : (

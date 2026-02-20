@@ -22,16 +22,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Bank, Tariff } from "@/lib/supabase/types";
 
 interface BankClientPageProps {
-  initialBank: Bank;
-  initialBankTariffs: Tariff[];
+	initialBank: Bank;
+	initialBankTariffs: Tariff[];
 }
 
-export function BankClientPage({ initialBank, initialBankTariffs }: BankClientPageProps) {
+export function BankClientPage({
+	initialBank,
+	initialBankTariffs,
+}: BankClientPageProps) {
 	const [activeTab, setActiveTab] = useState("tariffs");
 
 	const bank = initialBank;
 	const bankTariffs = initialBankTariffs;
-
 
 	return (
 		<div className="flex min-h-screen flex-col">

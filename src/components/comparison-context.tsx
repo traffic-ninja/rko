@@ -22,9 +22,11 @@ const ComparisonContext = createContext<ComparisonContextType | undefined>(
 );
 
 export function ComparisonProvider({ children }: { children: ReactNode }) {
-	const [comparedTariffs, setComparedTariffs] = useState<Tables<'tariffs'>[]>([]);
+	const [comparedTariffs, setComparedTariffs] = useState<Tables<"tariffs">[]>(
+		[]
+	);
 
-	const addToComparison = useCallback((tariff: Tables<'tariffs'>) => {
+	const addToComparison = useCallback((tariff: Tables<"tariffs">) => {
 		setComparedTariffs((prev) => {
 			if (prev.length >= 3) return prev;
 			if (prev.find((t) => t.id === tariff.id)) return prev;

@@ -31,10 +31,12 @@ const comparisonRows = [
 ] as const;
 
 interface ComparisonClientPageProps {
-  initialTariffs: Tables<'tariffs'>[];
+	initialTariffs: Tables<"tariffs">[];
 }
 
-export function ComparisonClientPage({ initialTariffs }: ComparisonClientPageProps) {
+export function ComparisonClientPage({
+	initialTariffs,
+}: ComparisonClientPageProps) {
 	const {
 		comparedTariffs,
 		addToComparison,
@@ -61,13 +63,16 @@ export function ComparisonClientPage({ initialTariffs }: ComparisonClientPagePro
 				t.bank_name.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
-	const handleAddTariff = (tariff: Tables<'tariffs'>) => {
+	const handleAddTariff = (tariff: Tables<"tariffs">) => {
 		addToComparison(tariff);
 		setIsDialogOpen(false);
 		setSearchQuery("");
 	};
 
-	const getValue = (tariff: Tables<'tariffs'>, key: keyof Tables<'tariffs'>) => {
+	const getValue = (
+		tariff: Tables<"tariffs">,
+		key: keyof Tables<"tariffs">
+	) => {
 		switch (key) {
 			case "bank_name":
 				return (
@@ -88,11 +93,14 @@ export function ComparisonClientPage({ initialTariffs }: ComparisonClientPagePro
 				return `${tariff.free_transfers} шт.`;
 			case "operations_limit":
 				return `${tariff.operations_limit} платежей/мес`;
-			default:
+			default: {
 				// Ensure key is a valid key of Tariff before accessing
-				const tariffKey = key as keyof Tables<'tariffs'>; // Cast key to valid key type
+				const tariffKey = key as keyof Tables<"tariffs">; // Cast key to valid key type
 				const value = tariff[tariffKey];
-				return typeof value === 'string' || typeof value === 'number' ? value : String(value);
+				return typeof value === "string" || typeof value === "number"
+					? value
+					: String(value);
+			}
 		}
 	};
 
@@ -198,17 +206,18 @@ export function ComparisonClientPage({ initialTariffs }: ComparisonClientPagePro
 																	className="h-10 w-10 rounded-lg object-cover shrink-0"
 																/>{" "}
 																<div className="flex-1 min-w-0">
-																																	<p className="font-medium text-foreground truncate">
-																																		{tariff.name}
-																																	</p>
-																																	<p className="text-sm text-foreground-secondary">
-																																		{tariff.bank_name}
-																																	</p>
-																																</div>
-																																<span className="text-sm font-medium text-primary shrink-0">
-																																	{tariff.price_label}
-																																</span>
-																															</button>														))
+																	<p className="font-medium text-foreground truncate">
+																		{tariff.name}
+																	</p>
+																	<p className="text-sm text-foreground-secondary">
+																		{tariff.bank_name}
+																	</p>
+																</div>
+																<span className="text-sm font-medium text-primary shrink-0">
+																	{tariff.price_label}
+																</span>
+															</button>
+														))
 													) : (
 														<p className="text-center text-foreground-secondary py-8">
 															Тарифы не найдены

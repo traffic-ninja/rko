@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import type { BlogPost } from "@/lib/supabase/types";
 
 interface BlogClientPageProps {
-  initialBlogPosts: BlogPost[];
+	initialBlogPosts: BlogPost[];
 }
 
 const categories = [
@@ -28,7 +28,9 @@ export function BlogClientPage({ initialBlogPosts }: BlogClientPageProps) {
 
 	const filteredPosts = useMemo(() => {
 		if (selectedCategory === "all") return initialBlogPosts;
-		return initialBlogPosts.filter((post) => post.category === selectedCategory);
+		return initialBlogPosts.filter(
+			(post) => post.category === selectedCategory
+		);
 	}, [selectedCategory, initialBlogPosts]);
 
 	const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
