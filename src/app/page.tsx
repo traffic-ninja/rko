@@ -17,6 +17,7 @@ import { ComparisonPanel } from "@/components/layout/comparison-panel";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { WebsiteJsonLd } from "@/components/structured-data";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { createClient } from "@/lib/supabase/server";
@@ -82,20 +83,12 @@ export default async function HomePage() {
 			.limit(3),
 	]);
 
-	if (banksError) {
-		console.error("Ошибка при загрузке банков:", banksError);
-	}
 	const topBanks = banksData || [];
-
-	if (promotionsError) {
-		console.error("Ошибка при загрузке акций:", promotionsError);
-	}
 	const topPromotions = promotionsData || [];
-
-	if (blogPostsError) {
-		console.error("Ошибка при загрузке статей блога:", blogPostsError);
-	}
 	const latestPosts = blogPostsData || [];
+
+	const hasCriticalError = banksError && topBanks.length === 0;
+	const hasPartialError = promotionsError || blogPostsError;
 
 	return (
 		<div className="flex min-h-screen flex-col">
@@ -134,6 +127,57 @@ export default async function HomePage() {
 						</div>
 					</div>
 				</section>
+
+				{/* Error Alerts */}
+				{hasCriticalError && (
+					<div className="container-custom py-8">
+						<Alert variant="destructive">
+							<svg
+								className="h-5 w-5 shrink-0"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+								/>
+							</svg>
+							<AlertDescription>
+								Не удалось загрузить данные о банках. Пожалуйста, попробуйте
+								позже.
+							</AlertDescription>
+						</Alert>
+					</div>
+				)}
+
+				{hasPartialError && (
+					<div className="container-custom py-4">
+						<Alert>
+							<svg
+								className="h-5 w-5 shrink-0"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								aria-hidden="true"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2}
+									d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+								/>
+							</svg>
+							<AlertDescription>
+								Некоторые данные могут быть неполными. Мы уже работаем над
+								исправлением.
+							</AlertDescription>
+						</Alert>
+					</div>
+				)}
 
 				{/* Advantages Section */}
 				<section className="py-16 bg-background">
@@ -175,11 +219,17 @@ export default async function HomePage() {
 								</Link>
 							</Button>
 						</div>
-						<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-							{topBanks.map((bank) => (
-								<BankCard key={bank.id} bank={bank} />
-							))}
-						</div>
+						{topBanks.length > 0 ? (
+							<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+								{topBanks.map((bank) => (
+									<BankCard key={bank.id} bank={bank} />
+								))}
+							</div>
+						) : (
+							<div className="text-center py-12 text-foreground-secondary">
+								<p>Данные о банках временно недоступны</p>
+							</div>
+						)}
 					</div>
 				</section>
 
@@ -229,11 +279,17 @@ export default async function HomePage() {
 								</Link>
 							</Button>
 						</div>
-						<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-							{topPromotions.map((promotion) => (
-								<PromotionCard key={promotion.id} promotion={promotion} />
-							))}
-						</div>
+						{topPromotions.length > 0 ? (
+							<div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+								{topPromotions.map((promotion) => (
+									<PromotionCard key={promotion.id} promotion={promotion} />
+								))}
+							</div>
+						) : (
+							<div className="text-center py-12 text-foreground-secondary">
+								<p>Акции временно недоступны</p>
+							</div>
+						)}
 					</div>
 				</section>
 
@@ -251,11 +307,17 @@ export default async function HomePage() {
 								</Link>
 							</Button>
 						</div>
-						<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-							{latestPosts.map((post) => (
-								<BlogCard key={post.id} post={post} />
-							))}
-						</div>
+						{latestPosts.length > 0 ? (
+							<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+								{latestPosts.map((post) => (
+									<BlogCard key={post.id} post={post} />
+								))}
+							</div>
+						) : (
+							<div className="text-center py-12 text-foreground-secondary">
+								<p>Статьи временно недоступны</p>
+							</div>
+						)}
 					</div>
 				</section>
 			</main>
