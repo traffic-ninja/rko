@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticleJsonLd, BreadcrumbJsonLd } from "@/components/structured-data";
+import { getPostBySlug } from "@/lib/data";
 import { createClient } from "@/lib/supabase/server";
 import type { BlogPost } from "@/lib/supabase/types";
 import { BlogPostClientPage } from "./blog-client-page";
@@ -9,17 +10,14 @@ interface BlogPostPageProps {
 	params: Promise<{ slug: string }>;
 }
 
+// ISR: обновление раз в 24 часа (опубликованные статьи не меняются)
+export const revalidate = 86400;
+
 export async function generateMetadata({
 	params,
 }: BlogPostPageProps): Promise<Metadata> {
 	const { slug } = await params;
-	const supabase = await createClient();
-
-	const { data: post } = await supabase
-		.from("blog_posts")
-		.select("*")
-		.eq("slug", slug)
-		.single();
+	const post = await getPostBySlug(slug);
 
 	if (!post) {
 		return {
@@ -67,19 +65,15 @@ export async function generateMetadata({
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
 	const { slug } = await params;
-	const supabase = await createClient();
+	const post = await getPostBySlug(slug);
 
-	const { data: post, error: postError } = await supabase
-		.from("blog_posts")
-		.select("*")
-		.eq("slug", slug)
-		.single();
-
-	if (postError || !post) {
-		console.error("Ошибка при загрузке статьи:", postError);
+	if (!post) {
+		console.error("Статья не найдена:", slug);
 		notFound();
 	}
 
+	// Получаем похожие статьи через createClient напрямую, т.к. это не критичные данные
+	const supabase = await createClient();
 	const { data: relatedPostsData, error: relatedPostsError } = await supabase
 		.from("blog_posts")
 		.select("*")

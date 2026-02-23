@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
-import type { Tables } from "@/lib/supabase/types";
+import { getAllBanks, getAllPromotions } from "@/lib/data";
 import { PromotionsClientPage } from "./promotions-client-page";
 
-// ISR: пересборка раз в час
+// ISR: обновление раз в 1 час (акции)
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
@@ -28,30 +27,15 @@ export const metadata: Metadata = {
 };
 
 export default async function PromotionsPage() {
-	const supabase = await createClient();
-
-	const [
-		{ data: promotionsData, error: promotionsError },
-		{ data: banksData, error: banksError },
-	] = await Promise.all([
-		supabase.from("promotions").select("*"),
-		supabase.from("banks").select("id, name"),
+	const [promotions, banks] = await Promise.all([
+		getAllPromotions(),
+		getAllBanks(),
 	]);
-
-	if (promotionsError) {
-		console.error("Ошибка при загрузке акций:", promotionsError);
-		return <div>Ошибка загрузки акций.</div>;
-	}
-
-	if (banksError) {
-		console.error("Ошибка при загрузке банков:", banksError);
-		return <div>Ошибка загрузки банков.</div>;
-	}
 
 	return (
 		<PromotionsClientPage
-			initialPromotions={(promotionsData as Tables<"promotions">[]) || []}
-			initialBanks={(banksData as Tables<"banks">[]) || []}
+			initialPromotions={promotions}
+			initialBanks={banks}
 		/>
 	);
 }

@@ -11,9 +11,7 @@ export default function NotFound() {
 			<main className="flex-1 flex items-center justify-center bg-background-secondary">
 				<div className="text-center px-4">
 					<SearchX className="h-16 w-16 text-foreground-muted mx-auto mb-6" />
-					<h1 className="text-4xl font-bold text-foreground mb-2">
-						404
-					</h1>
+					<h1 className="text-4xl font-bold text-foreground mb-2">404</h1>
 					<p className="text-xl text-foreground-secondary mb-2">
 						Страница не найдена
 					</p>

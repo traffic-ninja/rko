@@ -24,12 +24,12 @@ VALUES
 ('modul-optimal', 'modul', 'Модульбанк', '/modulbank-logo-green.jpg', 'Оптимальный', 690, '690 ₽/мес', 'Выгодный тариф для активного ИП', 'ИП с оборотом до 1 000 000 ₽', 30, '19 ₽ за платёж', '1%', 15, '{"15 бесплатных платежей", "Сниженные комиссии", "Интеграция с бухгалтерией"}', '{"Паспорт", "ИНН"}', TRUE, 'Лучшее соотношение цены и возможностей');
 
 -- Seed data for public.promotions
-INSERT INTO public.promotions (id, bank_id, bank_name, bank_logo, title, description, type, expires_at, link)
+INSERT INTO public.promotions (id, bank_id, bank_name, bank_logo, title, description, type, expires_at, link, is_active, created_at)
 VALUES
-('tinkoff-promo-1', 'tinkoff', 'Тинькофф Банк', '/tinkoff-bank-logo-yellow.jpg', '3 месяца бесплатно на тарифе "Продвинутый"', 'Откройте счёт до конца месяца и получите 3 месяца бесплатного обслуживания', 'free_service', '2026-02-28T00:00:00Z', '/banks/tinkoff'),
-('alfa-promo-1', 'alfa', 'Альфа-Банк', '/alfa-bank-logo-red.jpg', 'Кэшбэк 10% на топливо', 'Повышенный кэшбэк на АЗС для новых клиентов в течение первого месяца', 'cashback', '2026-01-31T00:00:00Z', '/banks/alfa'),
-('modul-promo-1', 'modul', 'Модульбанк', '/modulbank-logo-green.jpg', 'Бонус 5000 ₽ на счёт', 'Получите бонус при открытии счёта и первом пополнении от 50 000 ₽', 'bonus', NULL, '/banks/modul'),
-('sber-promo-1', 'sber', 'Сбербанк', '/sberbank-logo-green.jpg', 'Бесплатная бухгалтерия на 6 месяцев', 'Подключите онлайн-бухгалтерию бесплатно при открытии счёта', 'free_service', NULL, '/banks/sber');
+('tinkoff-promo-1', 'tinkoff', 'Тинькофф Банк', '/tinkoff-bank-logo-yellow.jpg', '3 месяца бесплатно на тарифе "Продвинутый"', 'Откройте счёт до конца месяца и получите 3 месяца бесплатного обслуживания', 'free_service', '2026-02-28T00:00:00Z', '/banks/tinkoff', TRUE, '2026-01-01T00:00:00Z'),
+('alfa-promo-1', 'alfa', 'Альфа-Банк', '/alfa-bank-logo-red.jpg', 'Кэшбэк 10% на топливо', 'Повышенный кэшбэк на АЗС для новых клиентов в течение первого месяца', 'cashback', '2026-01-31T00:00:00Z', '/banks/alfa', TRUE, '2026-01-01T00:00:00Z'),
+('modul-promo-1', 'modul', 'Модульбанк', '/modulbank-logo-green.jpg', 'Бонус 5000 ₽ на счёт', 'Получите бонус при открытии счёта и первом пополнении от 50 000 ₽', 'bonus', NULL, '/banks/modul', TRUE, '2026-01-01T00:00:00Z'),
+('sber-promo-1', 'sber', 'Сбербанк', '/sberbank-logo-green.jpg', 'Бесплатная бухгалтерия на 6 месяцев', 'Подключите онлайн-бухгалтерию бесплатно при открытии счёта', 'free_service', NULL, '/banks/sber', TRUE, '2026-01-01T00:00:00Z');
 
 -- Seed data for public.blog_posts
 INSERT INTO public.blog_posts (id, slug, title, excerpt, content, image, category, published_at, read_time, author_name, author_avatar)

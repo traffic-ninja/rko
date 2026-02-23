@@ -20,7 +20,10 @@ import { WebsiteJsonLd } from "@/components/structured-data";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { createClient } from "@/lib/supabase/server";
+import { getLatestPosts, getLatestPromotions, getTopBanks } from "@/lib/data";
+
+// ISR: обновление раз в 1 час (топ банков, промо, посты)
+export const revalidate = 3600;
 
 const advantages = [
 	{
@@ -67,28 +70,16 @@ const steps = [
 ];
 
 export default async function HomePage() {
-	const supabase = await createClient();
-
-	const [
-		{ data: banksData, error: banksError },
-		{ data: promotionsData, error: promotionsError },
-		{ data: blogPostsData, error: blogPostsError },
-	] = await Promise.all([
-		supabase.from("banks").select("*").limit(6),
-		supabase.from("promotions").select("*").limit(4),
-		supabase
-			.from("blog_posts")
-			.select("*")
-			.order("published_at", { ascending: false })
-			.limit(3),
+	// Загружаем данные параллельно с использованием кэшированных функций
+	const [topBanks, topPromotions, latestPosts] = await Promise.all([
+		getTopBanks(),
+		getLatestPromotions(),
+		getLatestPosts(),
 	]);
 
-	const topBanks = banksData || [];
-	const topPromotions = promotionsData || [];
-	const latestPosts = blogPostsData || [];
-
-	const hasCriticalError = banksError && topBanks.length === 0;
-	const hasPartialError = promotionsError || blogPostsError;
+	const hasCriticalError = topBanks.length === 0;
+	const hasPartialError =
+		topPromotions.length === 0 || latestPosts.length === 0;
 
 	return (
 		<div className="flex min-h-screen flex-col">

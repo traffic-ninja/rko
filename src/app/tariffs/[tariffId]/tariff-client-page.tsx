@@ -87,7 +87,6 @@ export function TariffClientPage({
 									width={64}
 									height={64}
 									sizes="(max-width: 768px) 48px, 64px"
-									priority
 									className="h-14 w-14 md:h-16 md:w-16 rounded-xl object-cover shrink-0"
 								/>
 								<div>

@@ -4,10 +4,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Tables } from "@/lib/supabase/types";
+import type { Promotion } from "@/lib/supabase/types";
 
 interface PromotionCardProps {
-	promotion: Tables<"promotions">;
+	promotion: Promotion;
 }
 
 const typeLabels: Record<string, string> = {

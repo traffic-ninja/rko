@@ -15,11 +15,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import type { Tables } from "@/lib/supabase/types";
+import type { Bank, Promotion } from "@/lib/supabase/types";
 
 interface PromotionsClientPageProps {
-	initialPromotions: Tables<"promotions">[];
-	initialBanks: Tables<"banks">[];
+	initialPromotions: Promotion[];
+	initialBanks: Bank[];
 }
 
 export function PromotionsClientPage({
@@ -141,7 +141,7 @@ export function PromotionsClientPage({
 							{filteredPromotions.map((promotion) => (
 								<PromotionCard
 									key={promotion.id}
-									promotion={promotion as Tables<"promotions">}
+									promotion={promotion}
 								/>
 							))}
 						</div>

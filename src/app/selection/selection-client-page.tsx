@@ -21,10 +21,10 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { useTariffFilters } from "@/hooks/use-tariff-filters";
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 
 interface SelectionClientPageProps {
-	initialTariffs: Tables<"tariffs">[];
+	initialTariffs: Tariff[];
 	initialRegions: string[];
 }
 

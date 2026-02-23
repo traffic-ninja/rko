@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { createClient } from "@/lib/supabase/server";
-import type { Tables } from "@/lib/supabase/types";
+import { getAllTariffs } from "@/lib/data";
+import type { Tariff } from "@/lib/supabase/types";
 import { ComparisonClientPage } from "./comparison-client-page";
+
+// ISR: обновление раз в 1 час (данные для сравнения)
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
 	title: "Сравнение тарифов РКО — Сравните условия банков",
@@ -25,38 +28,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ComparisonPage() {
-	const supabase = await createClient();
-
-	const { data: tariffs, error: tariffsError } = await supabase
-		.from("tariffs")
-		.select("*");
-
-	if (tariffsError) {
-		console.error("Ошибка при загрузке тарифов для сравнения:", tariffsError);
-		return (
-			<div className="container-custom py-12">
-				<Alert variant="destructive">
-					<svg
-						className="h-5 w-5 shrink-0"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-						aria-hidden="true"
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-						/>
-					</svg>
-					<AlertDescription>
-						Ошибка загрузки тарифов. Пожалуйста, попробуйте позже.
-					</AlertDescription>
-				</Alert>
-			</div>
-		);
-	}
+	const tariffs = await getAllTariffs();
 
 	if (!tariffs || tariffs.length === 0) {
 		return (
@@ -68,9 +40,5 @@ export default async function ComparisonPage() {
 		);
 	}
 
-	return (
-		<ComparisonClientPage
-			initialTariffs={(tariffs as Tables<"tariffs">[]) || []}
-		/>
-	);
+	return <ComparisonClientPage initialTariffs={tariffs} />;
 }

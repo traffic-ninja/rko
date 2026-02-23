@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { createClient } from "@/lib/supabase/server";
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 import { SelectionClientPage } from "./selection-client-page";
 
 export const metadata: Metadata = {
@@ -92,7 +92,7 @@ export default async function SelectionPage() {
 	const allRegions = banksData?.flatMap((bank) => bank.regions || []) ?? [];
 	const uniqueRegions = Array.from(new Set(allRegions));
 
-	const tariffs = (tariffsData as Tables<"tariffs">[]) || [];
+	const tariffs = tariffsData || [];
 	if (tariffs.length === 0) {
 		return (
 			<div className="container-custom py-12">

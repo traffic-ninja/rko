@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Tables } from "@/lib/supabase/types";
+import type { BlogPost } from "@/lib/supabase/types";
 
 interface BlogCardProps {
-	post: Tables<"blog_posts">;
+	post: BlogPost;
 }
 
 const categoryLabels = {

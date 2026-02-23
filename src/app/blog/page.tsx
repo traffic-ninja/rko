@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { createClient } from "@/lib/supabase/server";
+import { getAllPosts } from "@/lib/data";
 import type { BlogPost } from "@/lib/supabase/types";
 import { BlogClientPage } from "./blog-client-page";
 
-// ISR: пересборка раз в час
+// ISR: обновление раз в 1 час (список статей)
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
@@ -28,16 +28,14 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogPage() {
-	const supabase = await createClient();
+	const blogPosts = await getAllPosts();
 
-	const { data: blogPosts, error: blogPostsError } = await supabase
-		.from("blog_posts")
-		.select("*")
-		.order("published_at", { ascending: false });
-
-	if (blogPostsError) {
-		console.error("Ошибка при загрузке статей блога:", blogPostsError);
-		return <div>Ошибка загрузки статей.</div>;
+	if (!blogPosts || blogPosts.length === 0) {
+		return (
+			<div className="container-custom py-12 text-center text-foreground-secondary">
+				<p>Статьи временно недоступны</p>
+			</div>
+		);
 	}
 
 	return <BlogClientPage initialBlogPosts={(blogPosts || []) as BlogPost[]} />;

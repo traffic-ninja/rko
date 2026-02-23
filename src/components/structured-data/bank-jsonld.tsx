@@ -1,7 +1,7 @@
-import type { Tables } from "@/lib/supabase/types";
+import type { Bank } from "@/lib/supabase/types";
 
 interface BankJsonLdProps {
-	bank: Tables<"banks">;
+	bank: Bank;
 }
 
 export function BankJsonLd({ bank }: BankJsonLdProps) {

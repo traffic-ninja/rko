@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 
 interface UseTariffFiltersOptions {
-	initialTariffs: Tables<"tariffs">[];
+	initialTariffs: Tariff[];
 }
 
-interface ScoredTariff extends Tables<"tariffs"> {
+interface ScoredTariff extends Tariff {
 	isRecommended?: boolean;
 	recommendationReason?: string;
 }

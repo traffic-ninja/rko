@@ -1,7 +1,7 @@
-import type { Tables } from "@/lib/supabase/types";
+import type { BlogPost } from "@/lib/supabase/types";
 
 interface ArticleJsonLdProps {
-	post: Tables<"blog_posts">;
+	post: BlogPost;
 }
 
 export function ArticleJsonLd({ post }: ArticleJsonLdProps) {

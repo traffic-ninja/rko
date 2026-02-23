@@ -4,10 +4,10 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Tables } from "@/lib/supabase/types";
+import type { Bank } from "@/lib/supabase/types";
 
 interface BankCardProps {
-	bank: Tables<"banks">;
+	bank: Bank;
 }
 
 export function BankCard({ bank }: BankCardProps) {

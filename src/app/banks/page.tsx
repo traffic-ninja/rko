@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { createClient } from "@/lib/supabase/server";
+import { getAllBanks } from "@/lib/data";
 import type { Bank } from "@/lib/supabase/types";
 import BanksPageClient from "./banks-page-client";
 
-// ISR: пересборка раз в час
-export const revalidate = 3600;
+// ISR: обновление раз в 24 часа (данные обновляются редко)
+export const revalidate = 86400;
 
 export const metadata: Metadata = {
 	title: "Все банки с РКО — Сравнение условий и тарифов",
@@ -30,14 +30,12 @@ export const metadata: Metadata = {
 };
 
 export default async function BanksPage() {
-	const supabase = await createClient();
-	const { data: banks, error } = await supabase.from("banks").select("*");
+	const banks = await getAllBanks();
 
-	if (error) {
-		console.error("Error fetching banks:", error);
+	if (!banks || banks.length === 0) {
 		return (
 			<div className="container-custom py-12">
-				<Alert variant="destructive">
+				<Alert>
 					<svg
 						className="h-5 w-5 shrink-0"
 						fill="none"
@@ -49,23 +47,13 @@ export default async function BanksPage() {
 							strokeLinecap="round"
 							strokeLinejoin="round"
 							strokeWidth={2}
-							d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+							d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 						/>
 					</svg>
 					<AlertDescription>
-						Ошибка загрузки данных о банках. Пожалуйста, попробуйте позже.
+						Данные о банках временно недоступны
 					</AlertDescription>
 				</Alert>
-			</div>
-		);
-	}
-
-	if (!banks || banks.length === 0) {
-		return (
-			<div className="container-custom py-12">
-				<div className="text-center text-foreground-secondary">
-					<p>Данные о банках временно недоступны</p>
-				</div>
 			</div>
 		);
 	}

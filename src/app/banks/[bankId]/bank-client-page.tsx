@@ -10,12 +10,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { useState } from "react";
 import { TariffCard } from "@/components/cards/tariff-card";
 import { ComparisonPanel } from "@/components/layout/comparison-panel";
-import { Footer } from "@/components/layout/footer";
-import { Header } from "@/components/layout/header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -36,9 +33,7 @@ export function BankClientPage({
 	const bankTariffs = initialBankTariffs;
 
 	return (
-		<div className="flex min-h-screen flex-col">
-			<Header />
-
+		<>
 			<main className="flex-1 bg-background-secondary">
 				<div className="container-custom py-8 md:py-12">
 					{/* Breadcrumbs */}
@@ -67,7 +62,6 @@ export function BankClientPage({
 									width={80}
 									height={80}
 									sizes="(max-width: 768px) 64px, 80px"
-									priority
 									className="h-16 w-16 md:h-20 md:w-20 rounded-xl object-cover shrink-0"
 								/>{" "}
 								<div>
@@ -276,9 +270,6 @@ export function BankClientPage({
 					</Tabs>
 				</div>
 			</main>
-
-			<Footer />
-			<ComparisonPanel />
-		</div>
+		</>
 	);
 }

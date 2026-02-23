@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BreadcrumbJsonLd, TariffJsonLd } from "@/components/structured-data";
-import { createClient } from "@/lib/supabase/server";
+import { getBankById, getSimilarTariffs, getTariffById } from "@/lib/data";
 import type { Bank, Tariff } from "@/lib/supabase/types";
 import { TariffClientPage } from "./tariff-client-page";
 
@@ -9,17 +9,14 @@ interface TariffPageProps {
 	params: Promise<{ tariffId: string }>;
 }
 
+// ISR: обновление раз в 24 часа (условия тарифов стабильны)
+export const revalidate = 86400;
+
 export async function generateMetadata({
 	params,
 }: TariffPageProps): Promise<Metadata> {
 	const { tariffId } = await params;
-	const supabase = await createClient();
-
-	const { data: tariff } = await supabase
-		.from("tariffs")
-		.select("*, banks(name)")
-		.eq("id", tariffId)
-		.single();
+	const tariff = await getTariffById(tariffId);
 
 	if (!tariff) {
 		return {
@@ -27,7 +24,8 @@ export async function generateMetadata({
 		};
 	}
 
-	const bankName = (tariff.banks as { name: string })?.name || "Банк";
+	const bank = await getBankById(tariff.bank_id);
+	const bankName = bank?.name || "Банк";
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rko-sravni.ru";
 
 	return {
@@ -59,43 +57,25 @@ export async function generateMetadata({
 
 export default async function TariffPage({ params }: TariffPageProps) {
 	const { tariffId } = await params;
-	const supabase = await createClient();
+	const tariff = await getTariffById(tariffId);
 
-	const { data: tariff, error: tariffError } = await supabase
-		.from("tariffs")
-		.select("*")
-		.eq("id", tariffId)
-		.single();
-
-	if (tariffError || !tariff) {
-		console.error("Ошибка при загрузке тарифа:", tariffError);
+	if (!tariff) {
+		console.error("Тариф не найден:", tariffId);
 		notFound();
 	}
 
-	const { data: bank, error: bankError } = await supabase
-		.from("banks")
-		.select("*")
-		.eq("id", tariff.bank_id)
-		.single();
+	const bank = await getBankById(tariff.bank_id);
 
-	if (bankError || !bank) {
-		console.error("Ошибка при загрузке банка:", bankError);
+	if (!bank) {
+		console.error("Банк не найден:", tariff.bank_id);
 		notFound();
 	}
 
-	const { data: similarTariffsData, error: similarTariffsError } =
-		await supabase
-			.from("tariffs")
-			.select("*")
-			.neq("id", tariff.id)
-			.or(
-				`price.gte.${tariff.price - 1000},price.lte.${tariff.price + 1000},bank_id.eq.${tariff.bank_id}`
-			)
-			.limit(4);
-
-	if (similarTariffsError) {
-		console.error("Ошибка при загрузке похожих тарифов:", similarTariffsError);
-	}
+	const similarTariffs = await getSimilarTariffs(
+		tariffId,
+		tariff.price,
+		tariff.bank_id
+	);
 
 	return (
 		<>
@@ -111,7 +91,7 @@ export default async function TariffPage({ params }: TariffPageProps) {
 			<TariffClientPage
 				tariff={tariff as Tariff}
 				bank={bank as Bank}
-				similarTariffs={(similarTariffsData || []) as Tariff[]}
+				similarTariffs={similarTariffs as Tariff[]}
 			/>
 		</>
 	);

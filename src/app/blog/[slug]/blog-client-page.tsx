@@ -127,7 +127,6 @@ export function BlogPostClientPage({
 									width={700}
 									height={400}
 									sizes="(max-width: 768px) 100vw, 700px"
-									priority
 									className="w-full h-full object-cover"
 								/>
 							</div>

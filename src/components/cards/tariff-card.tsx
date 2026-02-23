@@ -9,10 +9,10 @@ import { useComparison } from "@/components/comparison-context";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 
 interface TariffCardProps {
-	tariff: Tables<"tariffs">;
+	tariff: Tariff;
 	showBankInfo?: boolean;
 }
 

@@ -15,6 +15,9 @@ const footerLinks = {
 	],
 };
 
+// Текущий год для copyright (динамическое значение)
+const CURRENT_YEAR = new Date().getFullYear();
+
 export function Footer() {
 	return (
 		<footer className="border-t border-border bg-background-secondary">
@@ -104,7 +107,7 @@ export function Footer() {
 
 				<div className="mt-12 pt-8 border-t border-border">
 					<p className="text-center text-sm text-foreground-muted">
-						© {new Date().getFullYear()} РКО Сравни. Все права защищены.
+						© {CURRENT_YEAR} РКО Сравни. Все права защищены.
 					</p>
 				</div>
 			</div>

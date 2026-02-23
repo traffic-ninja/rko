@@ -1,7 +1,7 @@
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 
 interface TariffJsonLdProps {
-	tariff: Tables<"tariffs">;
+	tariff: Tariff;
 	bankName: string;
 }
 

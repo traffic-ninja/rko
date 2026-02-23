@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ComparisonPanel } from "@/components/layout/comparison-panel";
+import { Footer } from "@/components/layout/footer";
+import { Header } from "@/components/layout/header";
 import { BankJsonLd, BreadcrumbJsonLd } from "@/components/structured-data";
-import { createClient } from "@/lib/supabase/server";
+import { getBankById, getTariffsByBankId } from "@/lib/data";
 import type { Bank, Tariff } from "@/lib/supabase/types";
 import { BankClientPage } from "./bank-client-page";
 
@@ -9,17 +12,46 @@ interface BankPageProps {
 	params: Promise<{ bankId: string }>;
 }
 
+// ISR: обновление раз в 24 часа (информация о банке меняется редко)
+export const revalidate = 86400;
+
+export default async function BankPage({ params }: BankPageProps) {
+	const { bankId } = await params;
+	const bank = await getBankById(bankId);
+
+	if (!bank) {
+		console.error("Банк не найден:", bankId);
+		notFound();
+	}
+
+	const bankTariffs = await getTariffsByBankId(bankId);
+
+	return (
+		<div className="flex min-h-screen flex-col">
+			<BankJsonLd bank={bank as Bank} />
+			<BreadcrumbJsonLd
+				items={[
+					{ name: "Главная", url: "/" },
+					{ name: "Банки", url: "/banks" },
+					{ name: bank.name, url: `/banks/${bank.id}` },
+				]}
+			/>
+			<Header />
+			<BankClientPage
+				initialBank={bank as Bank}
+				initialBankTariffs={(bankTariffs || []) as Tariff[]}
+			/>
+			<Footer />
+			<ComparisonPanel />
+		</div>
+	);
+}
+
 export async function generateMetadata({
 	params,
 }: BankPageProps): Promise<Metadata> {
 	const { bankId } = await params;
-	const supabase = await createClient();
-
-	const { data: bank } = await supabase
-		.from("banks")
-		.select("*")
-		.eq("id", bankId)
-		.single();
+	const bank = await getBankById(bankId);
 
 	if (!bank) {
 		return {
@@ -58,46 +90,4 @@ export async function generateMetadata({
 			images: [`${siteUrl}/og/banks/${bank.id}.png`],
 		},
 	};
-}
-
-export default async function BankPage({ params }: BankPageProps) {
-	const { bankId } = await params;
-	const supabase = await createClient();
-
-	const { data: bank, error: bankError } = await supabase
-		.from("banks")
-		.select("*")
-		.eq("id", bankId)
-		.single();
-
-	if (bankError || !bank) {
-		console.error("Ошибка при загрузке банка:", bankError);
-		notFound();
-	}
-
-	const { data: bankTariffs, error: tariffsError } = await supabase
-		.from("tariffs")
-		.select("*")
-		.eq("bank_id", bankId);
-
-	if (tariffsError) {
-		console.error("Ошибка при загрузке тарифов банка:", tariffsError);
-	}
-
-	return (
-		<>
-			<BankJsonLd bank={bank as Bank} />
-			<BreadcrumbJsonLd
-				items={[
-					{ name: "Главная", url: "/" },
-					{ name: "Банки", url: "/banks" },
-					{ name: bank.name, url: `/banks/${bank.id}` },
-				]}
-			/>
-			<BankClientPage
-				initialBank={bank as Bank}
-				initialBankTariffs={(bankTariffs || []) as Tariff[]}
-			/>
-		</>
-	);
 }

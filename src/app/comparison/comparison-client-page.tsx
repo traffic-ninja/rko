@@ -18,7 +18,7 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import type { Tables } from "@/lib/supabase/types";
+import type { Tariff } from "@/lib/supabase/types";
 
 const comparisonRows = [
 	{ key: "bank_name", label: "Банк" },
@@ -31,7 +31,7 @@ const comparisonRows = [
 ] as const;
 
 interface ComparisonClientPageProps {
-	initialTariffs: Tables<"tariffs">[];
+	initialTariffs: Tariff[];
 }
 
 export function ComparisonClientPage({
@@ -63,16 +63,13 @@ export function ComparisonClientPage({
 				t.bank_name.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
-	const handleAddTariff = (tariff: Tables<"tariffs">) => {
+	const handleAddTariff = (tariff: Tariff) => {
 		addToComparison(tariff);
 		setIsDialogOpen(false);
 		setSearchQuery("");
 	};
 
-	const getValue = (
-		tariff: Tables<"tariffs">,
-		key: keyof Tables<"tariffs">
-	) => {
+	const getValue = (tariff: Tariff, key: keyof Tariff) => {
 		switch (key) {
 			case "bank_name":
 				return (
@@ -95,7 +92,7 @@ export function ComparisonClientPage({
 				return `${tariff.operations_limit} платежей/мес`;
 			default: {
 				// Ensure key is a valid key of Tariff before accessing
-				const tariffKey = key as keyof Tables<"tariffs">; // Cast key to valid key type
+				const tariffKey = key as keyof Tariff; // Cast key to valid key type
 				const value = tariff[tariffKey];
 				return typeof value === "string" || typeof value === "number"
 					? value
