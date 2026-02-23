@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { createClient } from "@/lib/supabase/server";
-import type { Tariff } from "@/lib/supabase/types";
 import { SelectionClientPage } from "./selection-client-page";
 
 export const metadata: Metadata = {

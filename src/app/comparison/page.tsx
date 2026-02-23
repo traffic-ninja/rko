@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { getAllTariffs } from "@/lib/data";
-import type { Tariff } from "@/lib/supabase/types";
 import { ComparisonClientPage } from "./comparison-client-page";
 
 // ISR: обновление раз в 1 час (данные для сравнения)

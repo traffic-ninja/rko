@@ -26,13 +26,6 @@ export async function generateMetadata({
 	}
 
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rko-sravni.ru";
-	const categoryLabels: Record<string, string> = {
-		news: "Новости",
-		guides: "Гайды",
-		reviews: "Обзоры",
-		comparisons: "Сравнения",
-	};
-	const category = categoryLabels[post.category] || post.category;
 
 	return {
 		title: `${post.title} | РКО Сравни`,

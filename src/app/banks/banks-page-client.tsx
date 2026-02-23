@@ -1,6 +1,6 @@
 "use client";
 
-import { Filter, X } from "lucide-react";
+import { X } from "lucide-react";
 import { BankCard } from "@/components/cards/bank-card";
 import { ComparisonPanel } from "@/components/layout/comparison-panel";
 import { Footer } from "@/components/layout/footer";

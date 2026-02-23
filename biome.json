@@ -30,7 +30,8 @@
 				"useConst": "warn"
 			},
 			"complexity": {
-				"useSimpleNumberKeys": "error"
+				"useSimpleNumberKeys": "error",
+				"noUselessFragments": "warn"
 			},
 			"nursery": {
 				"noFloatingPromises": "error"
@@ -43,6 +44,11 @@
 			},
 			"suspicious": {
 				"noArrayIndexKey": "warn"
+			},
+			"correctness": {
+				"noUnusedImports": "error",
+				"noUnusedVariables": "error",
+				"useExhaustiveDependencies": "warn"
 			}
 		}
 	},
