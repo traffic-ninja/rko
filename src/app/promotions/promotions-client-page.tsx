@@ -139,10 +139,7 @@ export function PromotionsClientPage({
 					{filteredPromotions.length > 0 ? (
 						<div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 							{filteredPromotions.map((promotion) => (
-								<PromotionCard
-									key={promotion.id}
-									promotion={promotion}
-								/>
+								<PromotionCard key={promotion.id} promotion={promotion} />
 							))}
 						</div>
 					) : (

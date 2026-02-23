@@ -33,9 +33,6 @@ export default async function PromotionsPage() {
 	]);
 
 	return (
-		<PromotionsClientPage
-			initialPromotions={promotions}
-			initialBanks={banks}
-		/>
+		<PromotionsClientPage initialPromotions={promotions} initialBanks={banks} />
 	);
 }
