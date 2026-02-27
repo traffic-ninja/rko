@@ -6,7 +6,7 @@ import { PromotionsClientPage } from "./promotions-client-page";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-	title: "Спецпредложения и акции банков — РКО Сравни",
+	title: "Спецпредложения и акции банков — Сравни РКО",
 	description:
 		"Актуальные акции и спецпредложения банков на РКО. Кэшбэк, бесплатное обслуживание, бонусы для новых клиентов. Успейте воспользоваться выгодными предложениями.",
 	keywords:
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 			"Актуальные акции и спецпредложения банков на РКО. Кэшбэк, бесплатное обслуживание, бонусы.",
 		locale: "ru_RU",
 		type: "website",
-		siteName: "РКО Сравни",
+		siteName: "Сравни РКО",
 	},
 	twitter: {
 		card: "summary_large_image",

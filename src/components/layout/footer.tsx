@@ -30,7 +30,7 @@ export function Footer() {
 								<Building2 className="h-5 w-5 text-primary-foreground" />
 							</div>
 							<span className="text-xl font-bold text-foreground">
-								РКО Сравни
+								Сравни РКО
 							</span>
 						</Link>
 						<p className="mt-4 text-sm text-foreground-secondary leading-relaxed">
@@ -107,7 +107,7 @@ export function Footer() {
 
 				<div className="mt-12 pt-8 border-t border-border">
 					<p className="text-center text-sm text-foreground-muted">
-						© {CURRENT_YEAR} РКО Сравни. Все права защищены.
+						© {CURRENT_YEAR} Сравни РКО. Все права защищены.
 					</p>
 				</div>
 			</div>

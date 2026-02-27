@@ -29,7 +29,7 @@ export async function generateMetadata({
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rko-sravni.ru";
 
 	return {
-		title: `${tariff.name} — ${bankName} | РКО Сравни`,
+		title: `${tariff.name} — ${bankName} | Сравни РКО`,
 		description: `${tariff.description} ${tariff.price_label}. ${tariff.operations_limit} платежей/мес.`,
 		openGraph: {
 			title: `${tariff.name} — ${tariff.price_label}`,
@@ -44,7 +44,7 @@ export async function generateMetadata({
 			],
 			locale: "ru_RU",
 			type: "website",
-			siteName: "РКО Сравни",
+			siteName: "Сравни РКО",
 		},
 		twitter: {
 			card: "summary_large_image",

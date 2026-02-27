@@ -127,7 +127,7 @@ export default async function OpenGraphImage({
 					fontWeight: "600",
 				}}
 			>
-				РКО Сравни
+				Сравни РКО
 			</div>
 		</div>,
 		{

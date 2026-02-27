@@ -18,7 +18,7 @@ export function ArticleJsonLd({ post }: ArticleJsonLdProps) {
 		},
 		publisher: {
 			"@type": "Organization" as const,
-			name: "РКО Сравни",
+			name: "Сравни РКО",
 			logo: {
 				"@type": "ImageObject" as const,
 				url: "https://rko-sravni.ru/logo.png",

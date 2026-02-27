@@ -2,7 +2,7 @@ export function WebsiteJsonLd() {
 	const structuredData = {
 		"@context": "https://schema.org" as const,
 		"@type": "WebSite" as const,
-		name: "РКО Сравни",
+		name: "Сравни РКО",
 		description: "Сравнение тарифов РКО всех банков России",
 		url: "https://rko-sravni.ru",
 		potentialAction: {
@@ -12,7 +12,7 @@ export function WebsiteJsonLd() {
 		},
 		publisher: {
 			"@type": "Organization" as const,
-			name: "РКО Сравни",
+			name: "Сравни РКО",
 			logo: {
 				"@type": "ImageObject" as const,
 				url: "https://rko-sravni.ru/logo.png",

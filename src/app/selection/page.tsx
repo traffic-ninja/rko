@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 		description: "Подберите оптимальное РКО для вашего бизнеса за 2 минуты.",
 		locale: "ru_RU",
 		type: "website",
-		siteName: "РКО Сравни",
+		siteName: "Сравни РКО",
 	},
 	twitter: {
 		card: "summary_large_image",

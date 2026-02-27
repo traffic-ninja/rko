@@ -66,7 +66,7 @@ export async function generateMetadata({
 			: `от ${bank.min_price.toLocaleString("ru-RU")}₽`;
 
 	return {
-		title: `${bank.name} — РКО, тарифы и условия | РКО Сравни`,
+		title: `${bank.name} — РКО, тарифы и условия | Сравни РКО`,
 		description: `${bank.description} ${bank.tariff_count} тарифов, ${priceText}/мес. Рейтинг ${bank.rating || "N/A"}.`,
 		openGraph: {
 			title: `${bank.name} — РКО ${priceText}/мес`,
@@ -81,7 +81,7 @@ export async function generateMetadata({
 			],
 			locale: "ru_RU",
 			type: "website",
-			siteName: "РКО Сравни",
+			siteName: "Сравни РКО",
 		},
 		twitter: {
 			card: "summary_large_image",

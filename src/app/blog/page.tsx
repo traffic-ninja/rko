@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 			"Полезные статьи о расчётно-кассовом обслуживании: гайды, обзоры, сравнения.",
 		locale: "ru_RU",
 		type: "website",
-		siteName: "РКО Сравни",
+		siteName: "Сравни РКО",
 	},
 	twitter: {
 		card: "summary_large_image",

@@ -43,7 +43,7 @@ export function AboutPage() {
 				<section className="bg-gradient-to-b from-primary/5 to-background py-16 md:py-24">
 					<div className="container-custom text-center">
 						<h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-balance">
-							О проекте РКО Сравни
+							О проекте Сравни РКО
 						</h1>
 						<p className="text-lg text-foreground-secondary max-w-2xl mx-auto leading-relaxed">
 							Помогаем предпринимателям выбрать оптимальное расчётно-кассовое
@@ -61,7 +61,7 @@ export function AboutPage() {
 									Наша цель
 								</h2>
 								<p className="text-foreground-secondary leading-relaxed mb-4">
-									Мы создали РКО Сравни, потому что сами столкнулись с проблемой
+									Мы создали Сравни РКО, потому что сами столкнулись с проблемой
 									выбора банка для бизнеса. Информация о тарифах разбросана по
 									десяткам сайтов, условия написаны мелким шрифтом, а сравнить
 									предложения вручную — задача на несколько часов.

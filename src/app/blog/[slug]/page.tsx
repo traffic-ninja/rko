@@ -28,7 +28,7 @@ export async function generateMetadata({
 	const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://rko-sravni.ru";
 
 	return {
-		title: `${post.title} | РКО Сравни`,
+		title: `${post.title} | Сравни РКО`,
 		description: post.excerpt,
 		openGraph: {
 			title: post.title,
@@ -43,7 +43,7 @@ export async function generateMetadata({
 			],
 			locale: "ru_RU",
 			type: "article",
-			siteName: "РКО Сравни",
+			siteName: "Сравни РКО",
 			publishedTime: post.published_at,
 			authors: [post.author_name],
 		},
